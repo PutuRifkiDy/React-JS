@@ -1,12 +1,10 @@
-// konsep distractering dengan memberi default value pada props
-const ButtonDistractering = (props) => {
-    const { backgroundColor = "bg-green-500 hover:bg-green-300", children } = props;
-
+// arrow function consep props
+const ButtonPropsKonsep = (props) => {
     return (
-        <button className={`${backgroundColor} text-white px-5 py-2 rounded-xl shadow`}>
-            {children}
+        <button className={`${props.backgroundColor} text-white px-5 py-2 rounded-xl shadow`}>
+            Submit
         </button>
     );
 }
 
-export default ButtonDistractering;
+export default ButtonPropsKonsep;
