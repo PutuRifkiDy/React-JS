@@ -1,37 +1,44 @@
 import ButtonDistractering from "../components/Elements/Button/ButtonConsepDistractering";
 import CardProduct from "../components/Fragments/CardProduct";
+
+const products = [
+    {
+        id: 1,
+        image: "assets/shoes-2.png",
+        title: "Sepatu Baru",
+        price: "Rp. 1000.000",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+        id: 1,
+        image: "assets/shoes-2.png",
+        title: "Sepatu Lama",
+        price: "Rp. 1000.000",
+        description: "Ini adalah sepatu lama"
+    },
+    {
+        id: 1,
+        image: "assets/shoes-2.png",
+        title: "Sepatu wawwwwww",
+        price: "Rp. 1000.000",
+        description: "Ini adalah sepatu waw"
+    },
+]
+
 const ProductPage = () => {
     return (
         <div className="flex justify-center py-5 gap-5">
-            <CardProduct>
-                <CardProduct.Header image="assets/shoes-2.png" />
-                <CardProduct.Body
-                    title="Sepatu Baru"
-                >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos voluptatibus accusantium veniam, odio architecto voluptatem praesentium saepe quaerat eius tempore minus consectetur excepturi hic pariatur aperiam. Sint esse excepturi nostrum.
-                </CardProduct.Body>
-                <CardProduct.Footer price="Rp. 1.000.000"/>
-            </CardProduct>
-
-            <CardProduct>
-                <CardProduct.Header image="assets/shoes-2.png" />
-                <CardProduct.Body
-                    title="Sepatu Baru"
-                >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos voluptatibus accusantium veniam, odio architecto voluptatem praesentium saepe quaerat eius tempore minus consectetur excepturi hic pariatur aperiam. Sint esse excepturi nostrum.
-                </CardProduct.Body>
-                <CardProduct.Footer price="Rp. 1.000.000"/>
-            </CardProduct>
-            
-            <CardProduct>
-                <CardProduct.Header image="assets/shoes-2.png" />
-                <CardProduct.Body
-                    title="Sepatu Baru"
-                >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos voluptatibus accusantium veniam, odio architecto voluptatem praesentium saepe quaerat eius tempore minus consectetur excepturi hic pariatur aperiam. Sint esse excepturi nostrum.
-                </CardProduct.Body>
-                <CardProduct.Footer price="Rp. 1.000.000"/>
-            </CardProduct>
+            {products.map((product) => (
+                <CardProduct>
+                    <CardProduct.Header image={product.image} />
+                    <CardProduct.Body
+                        title={product.title}
+                    >
+                        {product.description}
+                    </CardProduct.Body>
+                    <CardProduct.Footer price={product.price} />
+                </CardProduct>
+            ))}
         </div>
     );
 }
