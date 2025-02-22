@@ -1,5 +1,6 @@
 import ButtonDistractering from "../components/Elements/Button/ButtonConsepDistractering";
 import CardProduct from "../components/Fragments/CardProduct";
+import Counter from "../components/Fragments/Counter";
 
 const products = [
     {
@@ -28,7 +29,7 @@ const products = [
 const HandleLogout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
-    window.location.href="/login"
+    window.location.href = "/login"
 }
 
 const email = localStorage.getItem("email");
@@ -52,6 +53,9 @@ const ProductPage = () => {
                         <CardProduct.Footer price={product.price} />
                     </CardProduct>
                 ))}
+            </div>
+            <div className="flex justify-center items-center">
+                <Counter />
             </div>
         </>
     );

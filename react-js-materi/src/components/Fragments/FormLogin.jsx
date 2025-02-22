@@ -10,6 +10,8 @@ const FormLogin = () => {
         localStorage.setItem("password", event.target.password.value);
         window.location.href="/products"
     }
+
+    
     return (
         <form onSubmit={HandleLogin}>
             <InputForm
