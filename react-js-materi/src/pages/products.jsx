@@ -1,11 +1,8 @@
 import ButtonDistractering from "../components/Elements/Button/ButtonConsepDistractering";
 import CardProduct from "../components/Fragments/CardProduct";
 import { useState, useEffect, useRef } from "react";
-import { getProducts } from "../products.services";
-
-
-
-const email = localStorage.getItem("email");
+import { getProducts } from "../services/products.services";
+import { getUsername } from "../services/auth.services";
 
 
 
@@ -13,6 +10,7 @@ const ProductPage = () => {
     const [cart, setCart] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [products, setProducts] = useState([]);
+    const [username, setUser] = useState("");
 
     useEffect(() => {
         setCart(
@@ -20,6 +18,16 @@ const ProductPage = () => {
         );
     }, [] // ini untuk memanggil api atau dependency
     )
+
+    // useEffect for user
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if(token){
+            setUser(getUsername(token));
+        } else {
+            window.location.href = "/login";
+        }
+    })
 
     // useRef
     const cartRef = useRef(
@@ -38,8 +46,7 @@ const ProductPage = () => {
     }, [cart, products])
 
     const HandleLogout = () => {
-        localStorage.removeItem("email");
-        localStorage.removeItem("password");
+        localStorage.removeItem("token");
         window.location.href = "/login"
     }
 
@@ -81,7 +88,7 @@ const ProductPage = () => {
     return (
         <>
             <div className="flex justify-end h-20 bg-blue-600 text-white items-center px-10 font-['Poppins']">
-                {email}
+                {username && username}
                 <ButtonDistractering backgroundColor="bg-black hover:bg-slate-800 ml-5" onClick={HandleLogout}>Logout</ButtonDistractering>
             </div>
             <div className="flex justify-center py-5 px-3 font-['Poppins']">
