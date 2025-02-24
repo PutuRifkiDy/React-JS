@@ -1,6 +1,6 @@
 import ButtonDistractering from "../components/Elements/Button/ButtonConsepDistractering";
 import CardProduct from "../components/Fragments/CardProduct";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const products = [
     {
@@ -42,6 +42,11 @@ const ProductPage = () => {
     }, [] // ini untuk memanggil api atau dependency
     )
 
+    // useRef
+    const cartRef = useRef(
+        JSON.parse(localStorage.getItem("cart")) || [],
+    );
+
     useEffect(() => {
         if (cart.length > 0) {
             const sum = cart.reduce((acc, item) => {
@@ -70,6 +75,24 @@ const ProductPage = () => {
             setCart([...cart, { id, qty: 1 }])
         }
     }
+
+    const handleToCartRef = (id) => {
+        cartRef.current = [...cartRef.current, {id, qty: 1}];
+        localStorage.setItem("cart", JSON.stringify(cartRef.current));
+    }
+
+    // penggunaan useRef sebagai dom
+    const totalRef = useRef(null);
+    console.log(totalRef);
+
+    useEffect(() => {
+        if(cart.length > 0){
+            totalRef.current.style.display = "table-row";
+        } else {
+            totalRef.current.style.display = "none";
+        }
+    }, [cart])
+
     return (
         <>
             <div className="flex justify-end h-20 bg-blue-600 text-white items-center px-10 font-['Poppins']">
@@ -133,7 +156,7 @@ const ProductPage = () => {
                                     </tr>
                                 );
                             })}
-                            <tr className="font-bold">
+                            <tr className="font-bold" ref={totalRef}>
                                 <td colSpan={3}>
                                     Total
                                 </td>
