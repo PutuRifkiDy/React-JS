@@ -1,6 +1,6 @@
 import ButtonDistractering from "../components/Elements/Button/ButtonConsepDistractering";
 import CardProduct from "../components/Fragments/CardProduct";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const products = [
     {
@@ -33,6 +33,26 @@ const email = localStorage.getItem("email");
 
 const ProductPage = () => {
     const [cart, setCart] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        setCart(
+            JSON.parse(localStorage.getItem("cart")) || []    
+        );
+    }, [] // ini untuk memanggil api atau dependency
+    )
+
+    useEffect(() => {
+        if (cart.length > 0) {
+            const sum = cart.reduce((acc, item) => {
+                const product = products.find((product) => product.id === item.id);
+                return acc + product.price * item.qty;
+            }, 0);
+            setTotalPrice(sum);
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+    }, [cart])
+
     const HandleLogout = () => {
         localStorage.removeItem("email");
         localStorage.removeItem("password");
@@ -42,7 +62,7 @@ const ProductPage = () => {
     const handleAddToCart = (id) => {
         if (cart.find((item) => item.id === id)) {
             setCart(
-                cart.map((item) => 
+                cart.map((item) =>
                     item.id === id ? { ...item, qty: item.qty + 1 } : item
                 )
             )
@@ -52,11 +72,11 @@ const ProductPage = () => {
     }
     return (
         <>
-            <div className="flex justify-end h-20 bg-blue-600 text-white items-center px-10">
+            <div className="flex justify-end h-20 bg-blue-600 text-white items-center px-10 font-['Poppins']">
                 {email}
                 <ButtonDistractering backgroundColor="bg-black hover:bg-slate-800 ml-5" onClick={HandleLogout}>Logout</ButtonDistractering>
             </div>
-            <div className="flex justify-center py-5 px-3">
+            <div className="flex justify-center py-5 px-3 font-['Poppins']">
                 <div className="w-4/6 flex flex-wrap gap-1">
                     {products.map((product) => (
                         <CardProduct key={product.id}>
@@ -78,13 +98,6 @@ const ProductPage = () => {
                     <h1 className="text-3xl font-bold text-blue-600 ml-5">
                         Cart
                     </h1>
-                    {/* <ul>
-                        {cart.map((item) => (
-                            <li key={item.id}>
-                                {item.id}
-                            </li>
-                        ))}
-                    </ul> */}
                     <table className="w-full text-left table-auto border-separate border-spacing-x-5">
                         <thead>
                             <th>
@@ -120,6 +133,12 @@ const ProductPage = () => {
                                     </tr>
                                 );
                             })}
+                            <tr className="font-bold">
+                                <td colSpan={3}>
+                                    Total
+                                </td>
+                                <td>{(totalPrice).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
