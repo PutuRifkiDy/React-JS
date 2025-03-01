@@ -3,14 +3,14 @@ import CardProduct from "../components/Fragments/CardProduct";
 import { useState, useEffect, useRef } from "react";
 import { getProducts } from "../services/products.services";
 import { getUsername } from "../services/auth.services";
-
-
+import { useLogin } from "../hooks/useLogin";
 
 const ProductPage = () => {
     const [cart, setCart] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [products, setProducts] = useState([]);
-    const [username, setUser] = useState("");
+    const username = useLogin();
+
 
     useEffect(() => {
         setCart(
@@ -18,16 +18,6 @@ const ProductPage = () => {
         );
     }, [] // ini untuk memanggil api atau dependency
     )
-
-    // useEffect for user
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if(token){
-            setUser(getUsername(token));
-        } else {
-            window.location.href = "/login";
-        }
-    })
 
     // useRef
     const cartRef = useRef(
